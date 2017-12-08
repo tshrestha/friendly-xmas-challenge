@@ -9,7 +9,13 @@
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      window.location = '/activities'
+      var host = window.location.host;
+      var root = '/';
+
+      if (host === 'tshrestha.github.io') {
+        root += 'friendly-xmas-challenge/'
+      }
+      window.location = root + 'activities'
     }
   });
 
