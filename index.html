@@ -27,48 +27,7 @@
   </form>
 </div>
 <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCEEg7myNVoz6UnsHFIgDtVt_za0N80tUU",
-    authDomain: "friendly-xmas-challenge.firebaseapp.com",
-    databaseURL: "https://friendly-xmas-challenge.firebaseio.com",
-    projectId: "friendly-xmas-challenge",
-    storageBucket: "friendly-xmas-challenge.appspot.com",
-    messagingSenderId: "792341843263"
-  };
-  firebase.initializeApp(config);
-</script>
-<script>
-  var signInBtn = document.getElementById("signin");
-  var emailInput = document.getElementById("email");
-  var passwordInput = document.getElementById("password");
-
-  var email = localStorage.getItem("email");
-  var password = localStorage.getItem("password");
-
-  signInBtn.onclick = function() {
-    authenticate(emailInput.value, passwordInput.value);
-  };
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      window.location = '/activities'
-    }
-  });
-
-  function authenticate(email, password) {
-    if (email && password) {
-      firebase.auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch(authFailure)
-    }
-  }
-
-  function authFailure(error) {
-    console.error(error.code);
-    console.error(error.message);
-  }
-</script>
+<script src="js/firebase-init.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>
