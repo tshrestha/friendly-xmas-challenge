@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>2017 Friendly Xmas Challenge</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<nav class="navbar navbar-dark">
+  <span class="navbar-brand mb-0 h1">Friendly Xmas Challenge</span>
+</nav>
+<div class="container auth-container">
+  <h1>Sign in</h1>
+  <form>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" class="form-control" placeholder="me@email.com" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" class="form-control" required>
+    </div>
+    <button id="signin" type="button" class="btn btn-primary btn-block">SIGN IN</button>
+  </form>
+</div>
+<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCEEg7myNVoz6UnsHFIgDtVt_za0N80tUU",
+    authDomain: "friendly-xmas-challenge.firebaseapp.com",
+    databaseURL: "https://friendly-xmas-challenge.firebaseio.com",
+    projectId: "friendly-xmas-challenge",
+    storageBucket: "friendly-xmas-challenge.appspot.com",
+    messagingSenderId: "792341843263"
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+  var signInBtn = document.getElementById("signin");
+  var emailInput = document.getElementById("email");
+  var passwordInput = document.getElementById("password");
+
+  var email = localStorage.getItem("email");
+  var password = localStorage.getItem("password");
+
+  signInBtn.onclick = function() {
+    authenticate(emailInput.value, passwordInput.value);
+  };
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      console.log('User signed in');
+      window.location = '/activities'
+    }
+  });
+
+  function authenticate(email, password) {
+    if (email && password) {
+      firebase.auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch(authFailure)
+    }
+  }
+
+  function authFailure(error) {
+    console.error(error.code);
+    console.error(error.message);
+  }
+</script>
+</body>
+</html>

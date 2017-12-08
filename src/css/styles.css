@@ -1,0 +1,24 @@
+body {
+  background-color: #FAFAFA;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.auth-container {
+  margin-top: 40px;
+}
+
+nav.navbar {
+  background-color: #1B5E20;
+}
+
+.no-activities {
+  padding: 15px;
+}
+
+.add-activity .row > div {
+  padding-right: 0;
+}
+
+.activities {
+  margin-top: 15px;
+}

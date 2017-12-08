@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>My Activities</title>
+</head>
+<body>
+<nav class="navbar navbar-dark">
+  <span class="navbar-brand mb-0 h1">My Activities</span>
+</nav>
+<div class="container">
+  <div class="no-activities text-center" id="no-activities">
+    <h1 class="text-center text-muted">Get to work!</h1>
+  </div>
+
+  <div id="activities" class="activities"></div>
+
+  <nav class="navbar fixed-bottom navbar-light bg-light add-activity">
+    <div class="form-row">
+      <div class="col-8">
+        <input class="form-control form-control-sm" type="text" placeholder="Activity">
+      </div>
+      <div class="col">
+        <input class="form-control form-control-sm" type="number" placeholder="Hrs">
+      </div>
+      <div class="col">
+        <button class="btn btn-outline-success btn-sm" type="button">ADD</button>
+      </div>
+    </div>
+  </nav>
+</div>
+<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCEEg7myNVoz6UnsHFIgDtVt_za0N80tUU",
+    authDomain: "friendly-xmas-challenge.firebaseapp.com",
+    databaseURL: "https://friendly-xmas-challenge.firebaseio.com",
+    projectId: "friendly-xmas-challenge",
+    storageBucket: "friendly-xmas-challenge.appspot.com",
+    messagingSenderId: "792341843263"
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+  var db;
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      db = firebase.database();
+      setActivities(user.email);
+    } else {
+      window.location = '/';
+    }
+  });
+
+  function setActivities(email) {
+    db.ref('users').on('value', function(res) {
+      var user = res.val().filter(function(user) { return user.email === email; });
+      var activities = user[0].activities;
+
+      if (activities) {
+        console.log(activities);
+        displayActivities(activities);
+      }
+    });
+  }
+
+  function displayActivities(activities) {
+    var el = document.getElementById("activities");
+    var list = "<ul class='list-group list-group-flush'>";
+    document.getElementById('no-activities').hidden = true;
+
+    activities.forEach(function(a) {
+      list += '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+        a.activity + '<span>' + a.hours + ' Hrs</span></li>'
+    });
+
+    list += '</ul>';
+
+    el.innerHTML = list;
+  }
+</script>
+</body>
+</html>
