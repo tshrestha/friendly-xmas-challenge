@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update</title>
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+<script src="../js/firebase-init.js"></script>
+<script>
+var users = [
+    {"email": "shrestha.tejen@gmail.com", "displayName": "tejen", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"email": "labodine@gmail.com", "displayName": "lisa", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"email": "kirbysypek@gmail.com", "displayName": "kirby", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"email": "tararyan12@gmail.com", "displayName": "tara", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"email": "alexis.sypek@gmail.com", "displayName": "alexis", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "957043D6-9C52-4B4B-BA45-1A5A1BED2C23", "email": "charlesoneill6@gmail.com", "displayName": "nick", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "4C01C1FE-0F52-4DFC-8B97-1F6E9C992DF8", "email": "esypek1@gmail.com", "displayName": "elle", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "A16BC986-AD71-4DE3-BDC9-9B39898BF431", "email": "q.farenwald@gmail.com", "displayName": "quinne", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "4683150D-4210-4463-9BF8-FE8DA153D001", "email": "katywellington91@gmail.com", "displayName": "katy", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "885ADC9B-8672-46E5-8CD5-F653463CB17D", "email": "jpsypek@gmail.com", "displayName": "jack", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "B41420F7-EF29-48F6-AB75-FEC1B243EFE8", "email": "deemichaelb@gmail.com", "displayName": "michael", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "BFCD413A-1202-48B9-9713-BC00FF4373DA", "email": "markmodak@yahoo.com", "displayName": "mark", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "3E512EBC-BD22-4D2D-AB23-2084A52E6A6A", "email": "samwarman@gmail.com", "displayName": "sam", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "2A68A1FF-E263-409E-8B18-478B387015AC", "email": "dtlefever@gmail.com", "displayName": "dan", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="},
+    {"localId": "33019EA5-9742-4A1E-A9CF-66847CABDCF1", "email": "cait.fiocchi@gmail.com", "displayName": "cait", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ=",},
+    {"localId": "FA85D374-71DA-4B18-A904-E30AB088D38A", "email": "jimparker99@hotmail.co.uk", "displayName": "james", "passwordHash": "Y2hhbGxlbmdlYWNjZXB0ZWQ="}
+  ];
+
+var currentUser;
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    user.updateProfile({displayName: currentUser.displayName})
+      .then(updateUsers)
+      .catch(function(error) {
+        console.error(error);
+      });
+  }
+});
+
+function updateUsers() {
+  if (firebase.auth().currentUser) {
+    console.log(firebase.auth().currentUser.email, firebase.auth().currentUser.displayName);
+    firebase.auth().signOut();
+  }
+
+  currentUser = users.pop();
+  authenticate(currentUser.email, 'challengeaccepted');
+}
+
+function authenticate(email, password) {
+  if (email && password) {
+    firebase.auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(authFailure)
+  }
+}
+
+function authFailure(error) {
+  console.error(error.code);
+  console.error(error.message);
+}
+
+updateUsers();
+</script>
+</body>
+</html>

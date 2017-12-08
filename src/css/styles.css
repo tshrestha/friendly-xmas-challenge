@@ -8,7 +8,7 @@ body {
 }
 
 nav.navbar {
-  background-color: #1B5E20;
+  background-color: #c62828;
 }
 
 .no-activities {
@@ -21,4 +21,14 @@ nav.navbar {
 
 .activities {
   margin-top: 15px;
+}
+
+.activities-by-day {
+  margin-bottom: 15px;
+}
+
+.hours-logged {
+  width: 64px;
+  display: inline-block;
+  text-align: right;
 }
