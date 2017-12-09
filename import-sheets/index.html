@@ -6,69 +6,58 @@
 </head>
 <body>
 <h1>
-  Updating from Google Sheets...
+  Import from Google Sheets
 </h1>
-<script type="text/javascript">
-  var xhr = new XMLHttpRequest();
-
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      parseSheet(JSON.parse(xhr.response).values);
+<form>
+  <label for="email">Email</label>
+  <input type="email" id="email">
+  <label for="passwd">Password</label>
+  <input type="password" id="passwd">
+  <button type="button" id="import">IMPORT</button>
+</form>
+<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+<script src="../js/firebase-init.js"></script>
+<script src="export-sheets.js"></script>
+<script>
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      exportSheets();
     }
+  });
+
+  document.getElementById('import').onclick = function() {
+    var email = document.getElementById('email').value;
+    var passwd = document.getElementById('passwd').value;
+    authenticate(email, passwd);
   };
 
-  xhr.open('GET', 'https://sheets.googleapis.com/v4/spreadsheets/1YgroX9iObzokZj-br4Hskdr-eS0V6iAQWvPpeRxfe4g/values/Sheet1?key=AIzaSyAQS329VRzo3cEyXwLbzwA_ulmMLf-skq4');
-  xhr.send();
-
-  function parseSheet(values) {
-    var dates = [];
-    for (var i = 7; i <= 21; i++) {
-      dates.push('12/' + i + '/2017');
-    }
-
-    var schema = {
-      "girls": {
-        "start": 2,
-        "stop": 10,
-        "name": 0
-      },
-      "boys": {
-        "start": 13,
-        "stop": 21,
-        "name": 0
-      }
-    };
-
-    var activities = {};
-    setActivities(schema.boys, values, dates, activities);
-    setActivities(schema.girls, values, dates, activities);
-
-    console.log(activities);
+  function exportSheets() {
+    var exporter = new SheetsImporter();
+    exporter.export(importSheets);
   }
 
-  function setActivities(schema, values, dates, activities) {
-    for (var j = schema.start; j < schema.stop; j++) {
-      var user = values[j][schema.name].toLowerCase();
-      if (user === 'mikey dee') user = 'michael';
-      if (user === 'modak') user = 'mark';
-
-      dates.forEach(function(d, k) {
-        var hours = k + 1;
-        var activity = k + 2;
-
-        if (values[j][hours] && values[j][activity]) {
-          if (!activities[user]) activities[user] = {};
-          if (!activities[user][d]) activities[user][d] = [];
-
-          activities[user][d] = [{
-            hours: values[j][hours],
-            activity: values[j][activity]
-          }];
-        }
-      });
+  function importSheets(activities) {
+    for (var user in activities) {
+      if (activities.hasOwnProperty(user)) {
+        console.log(activities[user]);
+        var ref = firebase.database().ref('users/' + user + '/activities');
+        ref.set(activities[user]);
+      }
     }
+  }
+
+  function authenticate(email, password) {
+    if (email && password) {
+      firebase.auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch(authFailure)
+    }
+  }
+
+  function authFailure(error) {
+    console.error(error.code);
+    console.error(error.message);
   }
 </script>
-
 </body>
 </html>

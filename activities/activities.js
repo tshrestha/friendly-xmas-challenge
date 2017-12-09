@@ -123,7 +123,7 @@
 
   function getDateLabel(timestamp) {
     var date = new Date();
-    var ad = new Date(parseInt(timestamp));
+    var ad = new Date(isNaN(timestamp) ? timestamp : parseInt(timestamp));
 
     var today = {
       date: date.getDate(),
