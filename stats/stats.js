@@ -136,5 +136,8 @@
         }
       }
     });
+
+    // Update every 10 seconds.
+    window.setInterval(syncWithSheets, 10000);
   }
 }();
