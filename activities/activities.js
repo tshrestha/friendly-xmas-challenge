@@ -14,6 +14,7 @@
   var activityField = document.getElementById('activity');
   var hoursField = document.getElementById('hours');
   var addBtn = document.getElementById('add');
+  var statsBtn = document.getElementById('stats-btn');
 
   addBtn.onclick = function() {
     if (activityField.value && hoursField.value) {
@@ -24,12 +25,14 @@
     }
   };
 
-  document.addEventListener('input', function(e) {
-    var el = e.target;
-    if (el.getAttribute('class').indexOf('logged-hours') !== -1) {
-      console.log(el);
+  statsBtn.onclick = function() {
+    var root = '/';
+    if (window.location.host === 'tshrestha.github.io') {
+      root += 'friendly-xmas-challenge/';
     }
-  });
+
+    window.location = root + 'stats';
+  };
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -38,7 +41,9 @@
       db = firebase.database();
       fetchActivities(user);
     } else {
-      window.location = '/';
+      window.location = window.location.host === 'tshrestha.github.io'
+        ? '/friendly-xmas-challenge'
+        : '/';
     }
   });
 
@@ -63,15 +68,11 @@
     }
 
     activities[currentTimestamp].unshift(activity);
-    db.ref('users/' + currentUser.displayName).set({
-      activities: activities
-    });
+    db.ref('users/' + currentUser.displayName + '/activities').set(activities);
   }
 
   function updateActivities() {
-    db.ref('users/' + currentUser.displayName).set({
-      activities: activities
-    });
+    db.ref('users/' + currentUser.displayName + '/activities').set(activities);
   }
 
   function displayActivities(activities) {
@@ -89,7 +90,7 @@
           list += '<li class="list-group-item d-flex justify-content-between align-items-center">' +
             startCase(a.activity) +
             '<span class="text-muted small">' +
-            '<input min="0.25" id="'+ a.activity + '-' + timestamp +
+            '<input min="0.25" id="' + a.activity + '-' + timestamp +
             '" type="number" class="form-control form-control-sm hours-logged" value="' + a.hours + '">&nbsp;Hrs' +
             '</span></li>'
         });
