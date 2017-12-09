@@ -92,7 +92,7 @@
             '<div class="d-flex w-100 justify-content-between">' +
             startCase(a.activity) +
             '<span class="text-muted small">' +
-            '<input min="0.25" id="' + a.activity + '-' + timestamp +
+            '<input id="' + a.activity + '-' + timestamp +
             '" type="number" class="form-control form-control-sm hours-logged" value="' + parseFloat(a.hours) + '">&nbsp;Hrs' +
             '</span></div><small class="text-muted">Updated 6:00 AM</small></li>'
         });
@@ -108,10 +108,10 @@
   function setUpdateListeners(inputs) {
     for (var i = 0; i < inputs.length; i++) {
       inputs.item(i).onchange = function() {
-        if (this.value > 0) {
+        if (this.value >= 0) {
           var id = this.id.split('-');
           var activity = id[0];
-          var timestamp = id[1];
+          var timestamp = id.length > 2 ? id.slice(1).join('-') : id[1];
 
           activities[timestamp]
             .filter(function(a) { return a.activity === activity; })[0].hours = this.value;
