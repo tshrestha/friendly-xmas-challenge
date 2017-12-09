@@ -9,8 +9,6 @@
   currentDate.setSeconds(0);
   currentDate.setMilliseconds(0);
 
-  var currentTimestamp = currentDate.getTime().toString();
-
   var activityField = document.getElementById('activity');
   var hoursField = document.getElementById('hours');
   var addBtn = document.getElementById('add');
@@ -64,11 +62,12 @@
       activities = {};
     }
 
-    if (!activities[currentTimestamp]) {
-      activities[currentTimestamp] = [];
+    var dateStr = (currentDate.getMonth() + 1) + '-' + currentDate.getDate() + '-' + currentDate.getFullYear();
+    if (!activities[dateStr]) {
+      activities[dateStr] = [];
     }
 
-    activities[currentTimestamp].unshift(activity);
+    activities[dateStr].unshift(activity);
     db.ref('users/' + currentUser.displayName + '/activities').set(activities);
   }
 
