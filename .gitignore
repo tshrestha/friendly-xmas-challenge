@@ -2,7 +2,7 @@
 .DS_Store
 
 *.iml
+*.json
 
 node_modules
-users.json
-users-new.json
+

@@ -7,6 +7,7 @@
   currentDate.setHours(0);
   currentDate.setMinutes(0);
   currentDate.setSeconds(0);
+  currentDate.setMilliseconds(0);
 
   var currentTimestamp = currentDate.getTime().toString();
 
