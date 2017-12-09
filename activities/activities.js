@@ -87,12 +87,13 @@
           + "<ul class='list-group list-group-flush'>";
 
         activities[timestamp].forEach(function(a) {
-          list += '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+          list += '<li class="list-group-item flex-column align-items-center">' +
+            '<div class="d-flex w-100 justify-content-between">' +
             startCase(a.activity) +
             '<span class="text-muted small">' +
             '<input min="0.25" id="' + a.activity + '-' + timestamp +
-            '" type="number" class="form-control form-control-sm hours-logged" value="' + a.hours + '">&nbsp;Hrs' +
-            '</span></li>'
+            '" type="number" class="form-control form-control-sm hours-logged" value="' + parseFloat(a.hours) + '">&nbsp;Hrs' +
+            '</span></div><small class="text-muted">Updated 6:00 AM</small></li>'
         });
 
         list += '</ul></div>';

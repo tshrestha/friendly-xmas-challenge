@@ -23,17 +23,19 @@
   </div>
 
   <div id="activities" class="activities"></div>
-
+</div>
+<div class="container">
   <nav class="navbar fixed-bottom navbar-light bg-light add-activity">
     <div class="form-row">
       <div class="col-7">
         <input id="activity" class="form-control" type="text" placeholder="Activity">
       </div>
       <div class="col">
-        <input id="hours" class="form-control" type="number" placeholder="Hrs">
+        <input id="hours" class="form-control text-right" type="text" placeholder="Hrs"
+               onkeypress='return event.charCode === 46 || (event.charCode >= 48 && event.charCode <= 57)'>
       </div>
       <div class="col">
-        <button id="add" class="btn btn-success" type="button">ADD</button>
+        <button id="add" class="btn btn-success btn-block" type="button">ADD</button>
       </div>
     </div>
   </nav>

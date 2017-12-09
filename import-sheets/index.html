@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Sheets API Quickstart</title>
+  <meta charset='utf-8' />
+</head>
+<body>
+<h1>
+  Updating from Google Sheets...
+</h1>
+<script type="text/javascript">
+  var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      parseSheet(JSON.parse(xhr.response).values);
+    }
+  };
+
+  xhr.open('GET', 'https://sheets.googleapis.com/v4/spreadsheets/1YgroX9iObzokZj-br4Hskdr-eS0V6iAQWvPpeRxfe4g/values/Sheet1?key=AIzaSyAQS329VRzo3cEyXwLbzwA_ulmMLf-skq4');
+  xhr.send();
+
+  function parseSheet(values) {
+    var dates = [];
+    for (var i = 7; i <= 21; i++) {
+      dates.push('12/' + i + '/2017');
+    }
+
+    var schema = {
+      "girls": {
+        "start": 2,
+        "stop": 10,
+        "name": 0
+      },
+      "boys": {
+        "start": 13,
+        "stop": 21,
+        "name": 0
+      }
+    };
+
+    var activities = {};
+    setActivities(schema.boys, values, dates, activities);
+    setActivities(schema.girls, values, dates, activities);
+
+    console.log(activities);
+  }
+
+  function setActivities(schema, values, dates, activities) {
+    for (var j = schema.start; j < schema.stop; j++) {
+      var user = values[j][schema.name].toLowerCase();
+      if (user === 'mikey dee') user = 'michael';
+      if (user === 'modak') user = 'mark';
+
+      dates.forEach(function(d, k) {
+        var hours = k + 1;
+        var activity = k + 2;
+
+        if (values[j][hours] && values[j][activity]) {
+          if (!activities[user]) activities[user] = {};
+          if (!activities[user][d]) activities[user][d] = [];
+
+          activities[user][d] = [{
+            hours: values[j][hours],
+            activity: values[j][activity]
+          }];
+        }
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
