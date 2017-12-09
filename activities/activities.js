@@ -94,7 +94,7 @@
             '<span class="text-muted small">' +
             '<input id="' + a.activity + '-' + timestamp +
             '" type="number" class="form-control form-control-sm hours-logged" value="' + parseFloat(a.hours) + '">&nbsp;Hrs' +
-            '</span></div><small class="text-muted">Updated 6:00 AM</small></li>'
+            '</span></div></li>'
         });
 
         list += '</ul></div>';
@@ -124,7 +124,7 @@
 
   function getDateLabel(timestamp) {
     var date = new Date();
-    var ad = new Date(isNaN(timestamp) ? timestamp : parseInt(timestamp));
+    var ad = parseDate(timestamp);
 
     var today = {
       date: date.getDate(),
@@ -147,6 +147,17 @@
     }
 
     return ad.toLocaleDateString();
+  }
+
+  function parseDate(date) {
+    // MM-DD-YYYY
+    if (isNaN(date)) {
+      var parts = date.split('-');
+      return new Date(parseInt(parts[2]), parseInt(parts[0]) - 1, parseInt(parts[1]))
+    }
+
+    // Milliseconds
+    return new Date(parseInt(date));
   }
 
   function startCase(str) {
