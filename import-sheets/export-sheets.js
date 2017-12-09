@@ -48,6 +48,7 @@ var SheetsImporter = function() {
       var user = values[j][schema.name].toLowerCase();
       if (user === 'mikey dee') user = 'michael';
       if (user === 'modak') user = 'mark';
+      if (user === 'lexi') user = 'alexis';
 
       var loggedActivities = values[j].slice(1);
       if (loggedActivities && loggedActivities.length) {
