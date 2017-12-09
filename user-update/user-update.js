@@ -1,13 +1,15 @@
 !function() {
-  var update;
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      user.updateProfile(update);
-    }
-  });
+  // firebase.auth().onAuthStateChanged(function(user) {
+  //   if (user) {
+  //     user.updateProfile({
+  //       // update obj
+  //     });
+  //   }
+  // });
 
   function authenticate(email, password) {
+    firebase.auth().signOut();
+
     if (email && password) {
       firebase.auth()
         .signInWithEmailAndPassword(email, password)
@@ -17,10 +19,5 @@
 
   function authFailure(error) {
     console.log(error);
-  }
-
-  return function update(email, password, updateObj) {
-    update = updateObj;
-    authenticate(email, password);
   }
 }();

@@ -49,11 +49,12 @@
 
   function fetchActivities(user) {
     db.ref('users/' + user.displayName).on('value', function(res) {
-      console.log(res.val());
-      activities = res.val().activities;
+      if (res.val()) {
+        activities = res.val().activities;
 
-      if (activities) {
-        displayActivities(activities);
+        if (activities) {
+          displayActivities(activities);
+        }
       }
     });
   }
