@@ -54,6 +54,7 @@
 
       displayTotalHours(activities);
       displayLeaderBoard(totalsByUser);
+      syncWithSheets();
     });
   }
 
@@ -121,5 +122,19 @@
     });
 
     return activities;
+  }
+
+  function syncWithSheets() {
+    var exporter = new SheetsImporter();
+
+    exporter.export(function(activities) {
+      for (var user in activities) {
+        if (activities.hasOwnProperty(user)) {
+          console.log(activities[user]);
+          var ref = firebase.database().ref('users/' + user + '/activities');
+          ref.set(activities[user]);
+        }
+      }
+    });
   }
 }();

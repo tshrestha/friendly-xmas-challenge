@@ -69,7 +69,7 @@ var SheetsImporter = function() {
             activities[user][d].push({
               hours: hours,
               activity: activity
-            })
+            });
           }
         });
       }
