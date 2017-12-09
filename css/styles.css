@@ -20,11 +20,11 @@ nav.navbar {
   padding-right: 0;
 }
 
-.activities {
+.container {
   margin-top: 15px;
 }
 
-.activities-by-day {
+.card {
   margin-bottom: 15px;
 }
 
@@ -32,4 +32,24 @@ nav.navbar {
   width: 64px;
   display: inline-block;
   text-align: right;
+}
+
+.boys-th, .girls-th {
+  color: #FAFAFA;
+}
+
+.boys-th {
+  background-color: #37474F;
+}
+
+.girls-th {
+  background-color: #4A148C;
+}
+
+.leaderboard-col:first-child {
+  padding-right: 5px;
+}
+
+.leaderboard-col:last-child {
+  padding-left: 5px;
 }

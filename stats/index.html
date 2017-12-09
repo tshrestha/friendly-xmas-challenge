@@ -18,7 +18,60 @@
   <button type="button" class="btn btn-success btn-sm" id="activities-btn">MY ACTIVITIES
   </button>
 </nav>
-<div class="container stats-container" id="stats-container"></div>
+<div class="container stats-container" id="stats-container">
+  <div class="card stats-card">
+    <div class="card-body">
+      <h4>Total hours</h4>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Boys
+        <span id="total-hours-boys"></span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Girls
+        <span id="total-hours-girls"></span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card stats-card">
+    <div class="card-body">
+      <h4>Leader board</h4>
+    </div>
+    <div class="row">
+      <div class="col leaderboard-col">
+        <table class="table table-sm">
+          <thead>
+          <tr>
+            <th colspan="2" class="text-center boys-th">Boys</th>
+          </tr>
+          <tr>
+            <th>Name</th>
+            <th class="text-right">Hours</th>
+          </tr>
+          </thead>
+          <tbody id="leader-board-boys"></tbody>
+        </table>
+      </div>
+      <div class="col leaderboard-col">
+        <table class="table table-sm">
+          <thead>
+          <tr>
+            <th colspan="2" class="text-center girls-th">Girls</th>
+          </tr>
+          <tr>
+            <th>Name</th>
+            <th class="text-right">Hours</th>
+          </tr>
+          </thead>
+          <tbody id="leader-board-girls"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
 <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
 <script src="../js/firebase-init.js"></script>
 <script src="stats.js"></script>
